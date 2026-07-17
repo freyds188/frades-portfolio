@@ -2,9 +2,7 @@ import {
   ArrowRight,
   Code2,
   Download,
-  ExternalLink,
   Github,
-  Gitlab,
   GraduationCap,
   Linkedin,
   Mail,
@@ -27,7 +25,6 @@ import {
   experiences,
   profile,
   projects,
-  repositories,
   skills
 } from "@/data/portfolio";
 
@@ -42,7 +39,6 @@ export default function Home() {
       <Experience />
       <Education />
       <Certificates />
-      <Repositories />
       <Contact />
     </main>
   );
@@ -125,7 +121,7 @@ function About() {
       id="about"
       eyebrow="About"
       title="Fresh graduate with a practical engineering mindset."
-      description="I am a fresh graduate passionate about backend development and Flutter, with hands-on experience building web systems, mobile applications, and data-driven academic projects."
+      description="I am a fresh graduate passionate about software development and mobile technologies, with hands-on experience building web systems, mobile applications, and data-driven academic projects."
     >
       <FadeIn>
         <div className="grid gap-5 md:grid-cols-3">
@@ -151,7 +147,7 @@ function Skills() {
       id="skills"
       eyebrow="Skills"
       title="Technical stack organized for real project work."
-      description="These placeholders are grouped so you can quickly update the portfolio as your stack grows."
+      description=""
     >
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {Object.entries(skills).map(([category, items], index) => (
@@ -254,7 +250,7 @@ function Certificates() {
     <Section
       id="certificates"
       eyebrow="Certificates"
-      title="Optional credentials and learning milestones."
+      title="Credentials and learning milestones."
     >
       <div className="grid gap-5 md:grid-cols-2">
         {certificates.map((certificate, index) => (
@@ -265,45 +261,6 @@ function Certificates() {
                 <p className="mt-2 text-sm text-muted-foreground">
                   {certificate.issuer} · {certificate.year}
                 </p>
-              </CardContent>
-            </Card>
-          </FadeIn>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-function Repositories() {
-  return (
-    <Section
-      id="repositories"
-      eyebrow="Repository Links"
-      title="Code repositories across GitHub, GitLab, and other sources."
-    >
-      <div className="grid gap-5 md:grid-cols-3">
-        {repositories.map((repository, index) => (
-          <FadeIn key={repository.name} delay={index * 0.06}>
-            <Card className="h-full transition hover:-translate-y-1 hover:border-primary/60">
-              <CardContent className="flex h-full flex-col gap-4">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="font-semibold">{repository.name}</h3>
-                  <Badge>{repository.source}</Badge>
-                </div>
-                <p className="text-sm leading-6 text-muted-foreground">
-                  {repository.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {repository.technologies.map((technology) => (
-                    <Badge key={technology}>{technology}</Badge>
-                  ))}
-                </div>
-                <Button asChild variant="outline" size="sm" className="mt-auto">
-                  <a href={repository.url} target="_blank" rel="noreferrer">
-                    <ExternalLink className="size-4" />
-                    Open Repository
-                  </a>
-                </Button>
               </CardContent>
             </Card>
           </FadeIn>
@@ -329,7 +286,7 @@ function Contact() {
                 [Mail, profile.email, `mailto:${profile.email}`],
                 [Github, "GitHub", profile.github],
                 [Linkedin, "LinkedIn", profile.linkedin],
-                [MapPin, "Philippines", "#"]
+                [MapPin, "Laguna, Philippines", "#"]
               ].map(([Icon, label, href]) => (
                 <a
                   key={String(label)}
@@ -350,7 +307,7 @@ function Contact() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <input
                     aria-label="Name"
-                    placeholder="Aldrin Frades"
+                    placeholder="Your Name"
                     className="h-11 rounded-md border border-input bg-background px-3 text-sm outline-none ring-offset-background transition focus:ring-2 focus:ring-ring"
                   />
                   <input

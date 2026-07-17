@@ -1,14 +1,21 @@
+import type { StaticImageData } from "next/image";
+
+import pesoDashboard from "@/data/image/peso-image/dashboard.png";
+import pesoFrontpage from "@/data/image/peso-image/frontpage.png";
+import pesoTimeTracker from "@/data/image/peso-image/time-tracker.png";
+
 export type Project = {
   title: string;
   description: string;
   role: string;
   technologies: string[];
-  thumbnail: string;
-  screenshots: string[];
+  thumbnail: string | StaticImageData;
+  screenshots: Array<string | StaticImageData>;
   githubUrl?: string;
   liveUrl?: string;
   demoVideoUrl?: string;
   privateProject?: boolean;
+  showScreenshots?: boolean;
 };
 
 export const profile = {
@@ -17,9 +24,9 @@ export const profile = {
   intro:
     "Fresh graduate building reliable backend systems, web and mobile applications, and practical software that solves real problems.",
   email: "fradesaldrin18@gmail.com",
-  resumeUrl: "/resume-placeholder.pdf",
+  resumeUrl: "/resume.pdf",
   github: "https://github.com/freyds188",
-  linkedin: "https://www.linkedin.com/in/yourusername"
+  linkedin: "https://www.linkedin.com/in/frades-aldrin-5301b73b6/"
 };
 
 export const skills = {
@@ -33,21 +40,16 @@ export const skills = {
 
 export const projects: Project[] = [
   {
-    title: "PESO Tracking System",
+    title: "PESO Attendance Tracking System",
     description:
-      "A web-based tracking system that manages applicants, employment records, and reporting workflows for PESO operations.",
+      "A web-based tracking system that manages interns, employment records, and reporting workflows for PESO operations.",
     role: "Full-stack Developer",
     technologies: ["Laravel", "PHP", "MySQL", "Bootstrap", "JavaScript"],
-    thumbnail:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-    screenshots: [
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80"
-    ],
-    githubUrl: "https://github.com/yourusername/peso-tracking-system",
-    liveUrl: "https://your-demo-link.example.com"
-  },
+    thumbnail: pesoFrontpage,
+    screenshots: [pesoFrontpage, pesoDashboard, pesoTimeTracker],
+    githubUrl: "https://github.com/itsmemarkmalvar/peso-frontend",
+    showScreenshots: true
+  },  
   {
     title: "AI-Based Health Access for Rural Communities",
     description:
@@ -55,11 +57,8 @@ export const projects: Project[] = [
     role: "Mobile & Backend Developer",
     technologies: [
       "React Native (Expo)",
-      "Node.js",
-      "Express.js",
-      "Firebase",
-      "MongoDB",
-      "TensorFlow",
+      "Python",
+      "SQLite",
       "NLP",
       "K-Means Clustering"
     ],
@@ -71,31 +70,8 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=1200&q=80"
     ],
     demoVideoUrl: "/videos/ai-health-system-demo.mp4",
-    privateProject: true
-  }
-];
-
-export const repositories = [
-  {
-    name: "backend-api-template",
-    description: "Reusable API starter with authentication, validation, and clean routing.",
-    technologies: ["Node.js", "Express.js", "MongoDB"],
-    url: "https://github.com/yourusername/backend-api-template",
-    source: "GitHub"
-  },
-  {
-    name: "flutter-mobile-ui",
-    description: "Flutter screens and reusable widgets for mobile application prototypes.",
-    technologies: ["Flutter", "Dart"],
-    url: "https://gitlab.com/yourusername/flutter-mobile-ui",
-    source: "GitLab"
-  },
-  {
-    name: "academic-projects-archive",
-    description: "Selected academic projects, experiments, and learning repositories.",
-    technologies: ["PHP", "JavaScript", "MySQL"],
-    url: "https://github.com/yourusername/academic-projects-archive",
-    source: "Other"
+    privateProject: true,
+    showScreenshots: false
   }
 ];
 

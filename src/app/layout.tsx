@@ -8,7 +8,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${profile.name} | Backend & Flutter Developer`,
+  title: `${profile.name} | Software Developer`,
   description:
     "Modern developer portfolio for a fresh graduate focused on backend development, Flutter, full-stack projects, and mobile applications.",
   keywords: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${profile.name} | Developer Portfolio`,
     description:
-      "Backend, Flutter, and full-stack projects with repositories, screenshots, and demo videos.",
+      "Backend, web, mobile, and full-stack projects with screenshots and demo videos.",
     type: "website"
   }
 };

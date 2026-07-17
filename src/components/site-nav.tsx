@@ -14,7 +14,6 @@ const navItems = [
   ["Skills", "skills"],
   ["Projects", "projects"],
   ["Experience", "experience"],
-  ["Repos", "repositories"],
   ["Contact", "contact"]
 ];
 
@@ -48,7 +47,7 @@ export function SiteNav() {
     <header className="fixed left-0 right-0 top-0 z-40 border-b border-border/70 bg-background/82 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="#home" className="text-sm font-semibold">
-          Your Name
+          Aldrin Frades
         </Link>
         <div className="hidden items-center gap-1 lg:flex">
           {navItems.map(([label, id]) => (

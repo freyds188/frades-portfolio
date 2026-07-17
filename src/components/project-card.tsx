@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Github, Images, PlayCircle, X } from "lucide-react";
+import { Expand, ExternalLink, Github, Images, PlayCircle, X } from "lucide-react";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
@@ -14,17 +14,17 @@ import type { Project } from "@/data/portfolio";
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <FadeIn delay={index * 0.08}>
-      <Card className="group h-full overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/60">
-        <div className="relative aspect-[16/10] overflow-hidden">
+      <Card className="group flex h-full min-h-[34rem] flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/60">
+        <div className="relative aspect-video overflow-hidden bg-secondary/60 p-3">
           <Image
             src={project.thumbnail}
             alt={`${project.title} thumbnail`}
             fill
-            className="object-cover transition duration-500 group-hover:scale-105"
+            className="object-contain p-3 transition duration-500 group-hover:scale-[1.02]"
             sizes="(min-width: 1024px) 50vw, 100vw"
           />
         </div>
-        <CardContent className="flex h-full flex-col gap-5">
+        <CardContent className="flex flex-1 flex-col gap-5">
           <div>
             <p className="text-sm font-medium text-primary">{project.role}</p>
             <h3 className="mt-2 text-2xl font-semibold">{project.title}</h3>
@@ -37,7 +37,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
               <Badge key={technology}>{technology}</Badge>
             ))}
           </div>
-          <div className="mt-auto flex flex-wrap gap-2">
+          <div className="mt-auto flex flex-wrap gap-2 pt-2">
             {project.githubUrl ? (
               <Button asChild variant="outline" size="sm">
                 <a href={project.githubUrl} target="_blank" rel="noreferrer">
@@ -54,7 +54,9 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
                 </a>
               </Button>
             ) : null}
-            <GalleryDialog project={project} />
+            {project.showScreenshots !== false && project.screenshots.length > 0 ? (
+              <GalleryDialog project={project} />
+            ) : null}
             {project.demoVideoUrl ? <VideoDialog project={project} /> : null}
           </div>
         </CardContent>
@@ -65,6 +67,9 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
 
 function GalleryDialog({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
+  const [fullViewIndex, setFullViewIndex] = useState<number | null>(null);
+  const fullViewScreenshot =
+    fullViewIndex === null ? null : project.screenshots[fullViewIndex];
 
   return (
     <>
@@ -76,24 +81,49 @@ function GalleryDialog({ project }: { project: Project }) {
         open={open}
         onClose={() => setOpen(false)}
         title={`${project.title} screenshots`}
-        description="Replace these placeholders with your actual project screenshots."
+        description="Select any screenshot to inspect it in full view."
       >
         <div className="grid gap-4 sm:grid-cols-2">
           {project.screenshots.map((screenshot, screenshotIndex) => (
-            <div
-              key={screenshot}
-              className="relative aspect-video overflow-hidden rounded-lg border border-border"
+            <button
+              type="button"
+              key={`${project.title}-screenshot-${screenshotIndex}`}
+              className="group/image relative aspect-video overflow-hidden rounded-lg border border-border bg-secondary/60 p-2 text-left transition hover:border-primary/70"
+              onClick={() => setFullViewIndex(screenshotIndex)}
             >
               <Image
                 src={screenshot}
                 alt={`${project.title} screenshot ${screenshotIndex + 1}`}
                 fill
-                className="object-cover"
+                className="object-contain p-2"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
-            </div>
+              <span className="absolute bottom-3 right-3 inline-flex items-center gap-2 rounded-md bg-background/90 px-3 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-soft backdrop-blur transition group-hover/image:opacity-100">
+                <Expand className="size-3.5" />
+                Full View
+              </span>
+            </button>
           ))}
         </div>
+      </Modal>
+      <Modal
+        open={fullViewScreenshot !== null}
+        onClose={() => setFullViewIndex(null)}
+        title={`${project.title} full screenshot`}
+        description="Full-size preview of the selected project screenshot."
+        size="compact"
+      >
+        {fullViewScreenshot ? (
+          <div className="relative h-[42vh] min-h-[18rem] overflow-hidden rounded-lg border border-border bg-secondary/60 sm:h-[52vh]">
+            <Image
+              src={fullViewScreenshot}
+              alt={`${project.title} full screenshot`}
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
+        ) : null}
       </Modal>
     </>
   );
@@ -134,14 +164,15 @@ function Modal({
   onClose,
   title,
   description,
-  children
+  children,
+  size = "default"
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
   description: string;
-  children: React.ReactNode;
   children: ReactNode;
+  size?: "default" | "compact";
 }) {
   useEffect(() => {
     if (!open) return;
@@ -170,7 +201,9 @@ function Modal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[88vh] w-full max-w-5xl overflow-y-auto rounded-lg border border-border bg-background p-5 shadow-soft sm:p-6"
+        className={`relative max-h-[92vh] w-full overflow-y-auto rounded-lg border border-border bg-background p-4 shadow-soft sm:p-5 ${
+          size === "compact" ? "max-w-3xl" : "max-w-5xl"
+        }`}
         onClick={(event) => event.stopPropagation()}
       >
         <button
@@ -181,11 +214,11 @@ function Modal({
         >
           <X className="size-4" />
         </button>
-        <h3 id="project-modal-title" className="pr-10 text-xl font-semibold">
+        <h3 id="project-modal-title" className="pr-10 text-lg font-semibold sm:text-xl">
           {title}
         </h3>
-        <p className="mt-2 pr-10 text-sm text-muted-foreground">{description}</p>
-        <div className="mt-5">{children}</div>
+        <p className="mt-1.5 pr-10 text-sm text-muted-foreground">{description}</p>
+        <div className="mt-4">{children}</div>
       </div>
     </div>
   );
